@@ -1,0 +1,55 @@
+#JVM:  
+例子：//定义了一个a为2M内存的对象在将a的引用继续分配新的内存最后在设置为null   
+byte[] a=new byte[2*1024*1024]; 
+a=new byte[2*1024*1024];  
+a=null;
+
+1、java虚拟机(jvm)分为堆栈区  
+     1.1 栈：栈中的内存随方法/线程的结束而结束  
+栈中存放的内容为引用，如a。  
+     1.2 堆：堆中主要存放的是具体的对象  
+堆中存在放的内容为具体数据，如new byte[2*1024*1024];  
+
+**堆**  
+堆中分为年轻代和老年代  
+年轻代中分为：  
+eden区和两个Survivor区一般eden区和Survivor区的比例为8:1:1,并且其中一个Survivor一直为空。
+eden区在new对象时会在该区域分配内存,如new byte[2*1024*1024]则在eden区分配了2M的内存没new一次就分配一次。  
+
+例子： 如果年轻代的总内存为5M,老年代为10M
+
+byte[] a=new byte[1*1024*1024];//此时在eden区分配1M内存
+a=new byte[1024*1024];//此时又在eden区分配1M内存   
+a=null;//此时不分配内存  
+这个过程一共在eden区创建了2M的内存由于a最后设置为了null此时前面在eden区的内存则属于垃圾对象，如果此时在进行  
+new byte[2*1024*1024]加进去2M的内存的话会加不进去，此时就会触发YGC(年轻代GC),由于前面3M的对象内容不存在  
+引用则此时GC时就会回收掉这部分的内存占用，此时回收完会剩下一下对象的元数据等等的一切占用内容的数据，在YGC未被  
+回收掉的内容会被放入到Survivor而对于我们现在的5M新生代对于两个Survivor区则分别为1M,如果此时GC完后内容大于1M
+则会直接被保存在老年代中,如果小于1M则会被保存在Survivor区。  
+
+当年轻代和老年代都装不小时一样会出发GC,此时的GC会触发一次全局的GC,包括新生代老年代。如果都无法回收则会报内存溢出。  
+
+**垃圾回收（GC）**  
+**当内存无法分配时会触发垃圾回收**  
+**JDK版本不同GC的算法不同，java9以后的回收机制使用G1
+垃圾回收算法：  
+标记-清除（Mark-Sweep）：  
+
+复制（Copying）：  
+
+标记-整理（Mark-Sweep:
+
+**新生代使用的是复制算法  
+**老年代使用的是标记-清除，标记-整理
+
+**对象的引应**  
+**分为：强应用，软引用，弱引用，虚引用  
+强应用：Object o=new Object();垃圾回收时永远不会回收。
+软引用(Soft Reference)：SoftReference<Object> soft=new SoftReference<new Object()>;当内存足够时不回收，不足时回收  
+弱引用(Weak Reference)：WeakReference<Object> soft=new WeakReference<new Object()>;内存回收时一定会回收,搭配ReferenceQueue 
+虚引用(Phantom Reference):PhantomReference<Object> soft=new PhantomReference<new Object()>;用于监控jvm
+
+
+
+
+

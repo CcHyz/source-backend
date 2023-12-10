@@ -1,4 +1,4 @@
-package com.cc.go_api;
+package com.cc.tips.go_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
