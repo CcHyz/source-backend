@@ -1,6 +1,8 @@
 package com.cc.tips.exception;
 
-public class ExceptionTestMain {
+import java.util.Comparator;
+
+public class ExceptionTestMain implements Comparable {
 
     public static void main(String[] args) {
         try {
@@ -18,10 +20,17 @@ public class ExceptionTestMain {
 
     public static void bVoid() {
         int i=1;
+        
         try {
             throw new MyException("我自己的异常!");
         } catch (MyException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //比较两个值
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

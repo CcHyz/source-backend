@@ -1,18 +1,113 @@
 plugins {
     id 'java'
+    id 'io.spring.dependency-management' version '1.1.4'//配置后：implementation 依赖可以不填版本号，由spring自己管理
+    id 'org.springframework.boot' version '2.7.18' //配置后：implementation 依赖可以不填版本号，由spring自己管理
+    id 'maven-publish'
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    maven {
+        //未使用https需要添加
+        allowInsecureProtocol = true
+        //仓库地址
+        url 'http://192.168.2.192:8081/repository/sf_develop_group/'
+        //授权
+        credentials {
+            username user
+            password pass
+        }
+    }
+//    mavenCentral()
+//    maven {
+//        url 'https://maven.aliyun.com/repository/public'
+//        url = uri("https://plugins.gradle.org/m2/")
+//    }
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
+//    implementation 'org.springframework.boot:spring-boot-gradle-plugin:2.7.5'
+//    implementation 'io.spring.gradle:dependency-management-plugin:1.1.4'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
+//    implementation 'org.springframework.boot:spring-boot:3.2.1'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation 'com.zaxxer:HikariCP:3.4.5'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    // https://mvnrepository.com/artifact/org.ow2.asm/asm
+    implementation 'org.ow2.asm:asm:9.6'
+// https://mvnrepository.com/artifact/org.osgi/org.osgi.core
+    compileOnly 'org.osgi:org.osgi.core:6.0.0'
+    // https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-ri
+    implementation 'com.sun.xml.bind:jaxb-ri:4.0.4'
+    // https://mvnrepository.com/artifact/net.liftweb/lift-webkit
+    implementation 'net.liftweb:lift-webkit_2.13:3.5.0'
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
+// https://mvnrepository.com/artifact/com.powsybl/powsybl-ucte-converter
+    testImplementation 'com.powsybl:powsybl-ucte-converter:6.2.4'
+
+
+
+
 }
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            artifactId = 'my-library'
+////            from components.java
+//            versionMapping {
+//                usage('java-api') {
+//                    fromResolutionOf('runtimeClasspath')
+//                }
+//                usage('java-runtime') {
+//                    fromResolutionResult()
+//                }
+//            }
+//            pom {
+//                name = 'My Library'
+//                description = 'A concise description of my library'
+//                url = 'http://www.example.com/library'
+////                properties = [
+////                        myProp          : "value",
+////                        "prop.with.dots": "anotherValue"
+////                ]
+////                licenses {
+////                    license {
+////                        name = 'The Apache License, Version 2.0'
+////                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+////                    }
+////                }
+////                developers {
+////                    developer {
+////                        id = 'johnd'
+////                        name = 'John Doe'
+////                        email = 'john.doe@example.com'
+////                    }
+//////                }
+////                scm {
+////                    connection = 'scm:git:git://example.com/my-library.git'
+////                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
+////                    url = 'http://example.com/my-library/'
+////                }
+//            }
+//        }
+//    }
+//}
 
 test {
     useJUnitPlatform()
