@@ -13,18 +13,18 @@ repositories {
         //未使用https需要添加
         allowInsecureProtocol = true
         //仓库地址
-        url 'http://192.168.2.192:8081/repository/sf_develop_group/'
+        url 'http://192.168.2.192/nexus/repository/sf_develop_group/'
         //授权
         credentials {
-            username user
-            password pass
+            username "sf_user"
+            password "sFkJ_Nexus3.com"
         }
     }
 //    mavenCentral()
-//    maven {
-//        url 'https://maven.aliyun.com/repository/public'
-//        url = uri("https://plugins.gradle.org/m2/")
-//    }
+    maven {
+        url 'https://maven.aliyun.com/repository/public'
+        url = uri("https://plugins.gradle.org/m2/")
+    }
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -44,6 +44,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation 'com.zaxxer:HikariCP:3.4.5'
     implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation("org.hibernate:hibernate-core:5.6.5.Final")
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'//不配置会找不到get set
     // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     // https://mvnrepository.com/artifact/org.ow2.asm/asm
