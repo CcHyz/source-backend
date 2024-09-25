@@ -1,59 +1,59 @@
 package com.cc.tips.transcation;
 
+import com.cc.tips.thread.threadLocal.ThreadLocalWarp;
+import com.cc.tips.thread.threadLocal.User;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(propagation = Propagation.REQUIRES_NEW)
-public class TransactionalServiceImpl implements TransactionalService{
+@Slf4j
+public class TransactionalServiceImpl implements TransactionalService {
 
     private final TransactionalTwoRepository transactionalTwoRepository;
     private final TransactionalRepository transactionalRepository;
     private final TransactionalTwoService transactionalTwoService;
-    private final ExecutorService executorService=Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    @Resource
+    private ThreadLocalWarp threadLocalWarp;
 
-
-    @SneakyThrows
-//    @Transactional
+    /**
+     * .
+     * <p>异常catch后是不会导致事物回滚,但是throw 出去后就会回滚</>
+     */
+    @Transactional
     @Override
     public void saveT() {
+        User object = (User) threadLocalWarp.get();
+        System.out.println("obj" + object);
+        executorService.submit(() -> {
+            User object1 = (User) threadLocalWarp.get();
+            System.out.println("obj1" + object1);
+            transactionalTwoService.saveTw();
+            try {
+                Integer a = null;
+                if (a == 0) {
+                    System.out.println("11111");
+                }
 
-        transactionalTwoService.saveTw();
+                List<TransactionalDto> all = transactionalRepository.findAll();
 
-        //异常catch后是不会导致事物回滚
-//        try {
-//            Integer a=0;
-//            if (a==0){
-//                throw  new Exception("error");
-//            }
-//        } catch (Throwable throwable){
-//            throwable.printStackTrace();
-//        }
+                TransactionalTwoDto transactionalDto = new TransactionalTwoDto();
+                transactionalDto.setCode("twoTest3");
+                transactionalTwoRepository.save(transactionalDto);
 
-//            Integer a=0;
-//            if (a==0){
-//                throw  new Exception("error");
-//            }
-
-
-
-        List<TransactionalDto> all = transactionalRepository.findAll();
-
-        TransactionalTwoDto transactionalDto=new TransactionalTwoDto();
-        transactionalDto.setCode("twoTest2");
-        transactionalTwoRepository.save(transactionalDto);
-
-        Long id = transactionalDto.getId();
-
+                Long id = transactionalDto.getId();
+            } catch (Exception throwable) {
+                throw throwable;
+            }
+        });
 
     }
 
@@ -68,7 +68,7 @@ public class TransactionalServiceImpl implements TransactionalService{
 
         List<TransactionalDto> all = transactionalRepository.findAll();
 
-        TransactionalTwoDto transactionalDto=new TransactionalTwoDto();
+        TransactionalTwoDto transactionalDto = new TransactionalTwoDto();
         transactionalDto.setCode("twoTest5");
         transactionalTwoRepository.save(transactionalDto);
 

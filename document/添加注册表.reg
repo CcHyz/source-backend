@@ -1,0 +1,26 @@
+Windows Registry Editor Version 5.00
+ 
+[HKEY_CLASSES_ROOT\*\shell\IDEA]
+@="Open with IDEA"
+"Icon"="D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe"
+ 
+[HKEY_CLASSES_ROOT\*\shell\IDEA\command]
+@="\"D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe\" \"%1\""
+ 
+Windows Registry Editor Version 5.00
+ 
+[HKEY_CLASSES_ROOT\Directory\shell\IDEA]
+@="Open with IDEA"
+"Icon"="D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe"
+ 
+[HKEY_CLASSES_ROOT\Directory\shell\IDEA\command]
+@="\"D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe\" \"%V\""
+ 
+Windows Registry Editor Version 5.00
+ 
+[HKEY_CLASSES_ROOT\Directory\Background\shell\IDEA]
+@="Open with IDEA"
+"Icon"="D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe"
+ 
+[HKEY_CLASSES_ROOT\Directory\Background\shell\IDEA\command]
+@="D:\\IDEA\\IntelliJ IDEA 2024.3\\bin\\idea64.exe"
