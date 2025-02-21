@@ -13,7 +13,7 @@ import java.io.IOException;
 public class AuthTwoFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("join doFilter AuthTwoFilter");
+//        System.out.println("join doFilter AuthTwoFilter");
 //        int i = 1;
 //        if (i == 1) {
 //            throw new RemoteException("异常");
