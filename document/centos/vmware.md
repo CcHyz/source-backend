@@ -16,7 +16,7 @@
 Bridge），virbr0是虚拟网桥网卡。一般centos6.5版本前普遍默认的网卡是eth0，centos7版本后普遍默认的网卡是ensxx（xx为数字）。当然也有已经修改过的网卡名称。环回接口的作用是作为本地软件环回测试本主机的进程之间的通信之用，简单理解，就是用做本机测试的，而且它的inet，也就是ip，只能是127.0.0.1 ）
 **  
 3、vim ifcfg-ens33
-![centos修改网卡固定ip图.png](image/centos%E4%BF%AE%E6%94%B9%E7%BD%91%E5%8D%A1%E5%9B%BA%E5%AE%9Aip%E5%9B%BE.png)
+![centos修改网卡固定ip图.png](../image/centos修改网卡固定ip图.png)
 4、添加内容
 
 ```vim
@@ -31,13 +31,23 @@ systemctl restart network.service
 
 ## 设置主机名
 
-![img_1.png](image/hostname.png)
+![img_1.png](../image/hostname.png)
 
 ```shell
 1、vim /etc/hostname #修改为你要取的服务器名称
 2、systemctl restart systemd-hostnamed #重启
 3、hostname #查看
 ```
+
+## SELinux
+
+SELinux（Security-Enhanced Linux）作为一个提供细粒度权限管理的安全模块，对于增强系统安全性具有重要意义。然而，在启用SELinux的过程中，会出现很对意想不到的问题
+
+临时禁用：
+sudo setenforce 0
+修改策略模式：
+修改/etc/selinux/config文件将SELINUX参数修改为permissive（宽容模式）
+![img.png](../image/SeLinux配置.png)
 
 ## 三、日常学习
 
